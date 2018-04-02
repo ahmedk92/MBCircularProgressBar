@@ -146,4 +146,16 @@ IB_DESIGNABLE
  */
 @property (nonatomic,assign) IBInspectable BOOL      countdown;
 
+/// Radius of lap count circle. A value of zero or negative to not draw it.
+@property (nonatomic, assign) CGFloat lapCircleRadius;
+
+/// Text to show inside the lap circle.
+@property (nonatomic, strong) NSString* lapCircleText;
+
+/// Color to fill inside the lap circle.
+@property (nonatomic, strong) UIColor* lapCircleFillColor;
+
+/// Color to stroke the outside of the lap circle.
+@property (nonatomic, strong) UIColor* lapCircleStrokeColor;
+
 @end

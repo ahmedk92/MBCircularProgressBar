@@ -38,6 +38,10 @@
 @dynamic showValueString;
 @dynamic textOffset;
 @dynamic countdown;
+@dynamic lapCircleRadius;
+@dynamic lapCircleText;
+@dynamic lapCircleFillColor;
+@dynamic lapCircleStrokeColor;
 
 #pragma mark - Drawing
 
@@ -120,10 +124,13 @@
     }
     
     CGMutablePathRef arc = CGPathCreateMutable();
+    CGFloat startAngle = (self.progressAngle/100.f)*M_PI-((-self.progressRotationAngle/100.f)*2.f+0.5)*M_PI-(2.f*M_PI)*(self.progressAngle/100.f)*(100.f-100.f*self.value/self.maxValue)/100.f;
+    CGFloat endAngle = -(self.progressAngle/100.f)*M_PI-((-self.progressRotationAngle/100.f)*2.f+0.5)*M_PI;
+    
     CGPathAddArc(arc, NULL,
                  center.x, center.y, radius,
-                 (self.progressAngle/100.f)*M_PI-((-self.progressRotationAngle/100.f)*2.f+0.5)*M_PI-(2.f*M_PI)*(self.progressAngle/100.f)*(100.f-100.f*self.value/self.maxValue)/100.f,
-                 -(self.progressAngle/100.f)*M_PI-((-self.progressRotationAngle/100.f)*2.f+0.5)*M_PI,
+                 startAngle,
+                 endAngle,
                  YES);
     
     CGPathRef strokedArc =
@@ -141,9 +148,50 @@
     
     CGPathRelease(arc);
     CGPathRelease(strokedArc);
+    
+    CGPoint lapPoint = CGPointMake(radius * cos(startAngle) + center.x,  radius * sin(startAngle) + center.y);
+    
+    [self drawLapCircle:lapPoint context:c];
 }
 
-- (void)drawText:(CGRect)rect context:(CGContextRef)c{
+- (void)drawLapCircle:(CGPoint)lapPoint context:(CGContextRef)c {
+    CGFloat radius = self.lapCircleRadius;
+    if (radius <= 0) return;
+    
+    CGMutablePathRef lapCircle = CGPathCreateMutable();
+    CGPathAddArc(lapCircle, NULL, lapPoint.x, lapPoint.y, radius, 0, 2 * M_PI, YES);
+    CGContextAddPath(c, lapCircle);
+    CGContextSetFillColorWithColor(c, self.lapCircleFillColor.CGColor);
+    CGContextSetStrokeColorWithColor(c, self.lapCircleStrokeColor.CGColor);
+    CGContextDrawPath(c, kCGPathFillStroke);
+    CGPathRelease(lapCircle);
+    
+    [self drawLapCircleText:lapPoint radius:radius context:c text:self.lapCircleText ?: @""];
+
+}
+
+- (void)drawLapCircleText:(CGPoint)lapPoint radius:(CGFloat)radius context:(CGContextRef)c text:(NSString*)text {
+    NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
+    textStyle.alignment = NSTextAlignmentLeft;
+    
+    CGFloat valueFontSize = radius;
+    
+    NSDictionary* valueFontAttributes = @{NSFontAttributeName: [UIFont fontWithName: self.valueFontName size:valueFontSize], NSForegroundColorAttributeName: self.fontColor, NSParagraphStyleAttributeName: textStyle};
+    
+    NSString *formatString = [NSString stringWithFormat:@"%%.%df", (int)self.decimalPlaces];
+    
+    
+    NSAttributedString* attributedText = [[NSAttributedString alloc] initWithString:text
+                                                                attributes:valueFontAttributes];
+    
+    [attributedText drawAtPoint:CGPointApplyAffineTransform(lapPoint, CGAffineTransformMakeTranslation(-attributedText.size.width / 2, - attributedText.size.height / 2))];
+}
+
+- (void)drawText:(CGRect)rect context:(CGContextRef)c {
+    [self drawText:rect context:c text:nil];
+}
+
+- (void)drawText:(CGRect)rect context:(CGContextRef)c text:(NSString*)textToPresent {
   NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
   textStyle.alignment = NSTextAlignmentLeft;
   
@@ -155,12 +203,14 @@
   
   NSString *formatString = [NSString stringWithFormat:@"%%.%df", (int)self.decimalPlaces];
     
-  NSString* textToPresent;
-  if (self.countdown) {
-    textToPresent = [NSString stringWithFormat:formatString, (self.maxValue - self.value)];
-  } else {
-    textToPresent = [NSString stringWithFormat:formatString, self.value];
-  }
+    
+    if (textToPresent == nil) {
+        if (self.countdown) {
+            textToPresent = [NSString stringWithFormat:formatString, (self.maxValue - self.value)];
+        } else {
+            textToPresent = [NSString stringWithFormat:formatString, self.value];
+        }
+    }
   NSAttributedString* value = [[NSAttributedString alloc] initWithString:textToPresent
                                                                 attributes:valueFontAttributes];
   [text appendAttributedString:value];
@@ -194,7 +244,7 @@
 #pragma mark - Override methods to support animations
 
 + (BOOL)needsDisplayForKey:(NSString *)key {
-    if ([key isEqualToString:@"value"]) {
+    if ([key isEqualToString:@"value"] || [key isEqualToString:@"lapCircleRadius"]) {
         return YES;
     }
     return [super needsDisplayForKey:key];
@@ -212,6 +262,19 @@
             }
             [animation setKeyPath:event];
             [animation setFromValue:[self.presentationLayer valueForKey:@"value"]];
+            [animation setToValue:nil];
+            return animation;
+        }
+        if ([event isEqualToString:@"lapCircleRadius"]) {
+            id animation = [super actionForKey:@"backgroundColor"];
+            
+            if (animation == nil || [animation isEqual:[NSNull null]])
+            {
+                [self setNeedsDisplay];
+                return [NSNull null];
+            }
+            [animation setKeyPath:event];
+            [animation setFromValue:[self.presentationLayer valueForKey:@"lapCircleRadius"]];
             [animation setToValue:nil];
             return animation;
         }

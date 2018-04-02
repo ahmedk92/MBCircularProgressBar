@@ -305,6 +305,38 @@
   return self.progressLayer.countdown;
 }
 
+- (void)setLapCircleRadius:(CGFloat)lapCircleRadius {
+    self.progressLayer.lapCircleRadius = lapCircleRadius;
+}
+
+- (CGFloat)lapCircleRadius {
+    return self.progressLayer.lapCircleRadius;
+}
+
+- (void)setLapCircleText:(NSString *)lapCircleText {
+    self.progressLayer.lapCircleText = lapCircleText;
+}
+
+- (NSString *)lapCircleText {
+    return self.progressLayer.lapCircleText;
+}
+
+- (void)setLapCircleFillColor:(UIColor *)lapCircleFillColor {
+    self.progressLayer.lapCircleFillColor = lapCircleFillColor;
+}
+
+- (UIColor *)lapCircleFillColor {
+    return self.progressLayer.lapCircleFillColor;
+}
+
+- (void)setLapCircleStrokeColor:(UIColor *)lapCircleStrokeColor {
+    self.progressLayer.lapCircleStrokeColor = lapCircleStrokeColor;
+}
+
+- (UIColor *)lapCircleStrokeColor {
+    return self.progressLayer.lapCircleStrokeColor;
+}
+
 #pragma mark - CALayer
 
 -(MBCircularProgressBarLayer*)progressLayer{

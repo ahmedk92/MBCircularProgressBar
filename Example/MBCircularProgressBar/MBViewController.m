@@ -20,10 +20,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.progressBar.lapCircleText = @"10";
+    self.progressBar.lapCircleFillColor = [UIColor lightGrayColor];
+    self.progressBar.lapCircleStrokeColor = [UIColor orangeColor];
 }
 
 - (IBAction)animate:(UIButton *)sender {
     [UIView animateWithDuration:self.animatedSwitch.on * 1.f animations:^{
+        self.progressBar.lapCircleRadius = 20 - self.progressBar.lapCircleRadius;
         self.progressBar.value = 100.f - self.progressBar.value;
     }];
 }
