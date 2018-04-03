@@ -337,6 +337,14 @@
     return self.progressLayer.lapCircleStrokeColor;
 }
 
+- (void)setLapCircleTextColor:(UIColor *)lapCircleTextColor {
+    self.progressLayer.lapCircleTextColor = lapCircleTextColor;
+}
+
+- (UIColor *)lapCircleTextColor {
+    return self.progressLayer.lapCircleTextColor;
+}
+
 #pragma mark - CALayer
 
 -(MBCircularProgressBarLayer*)progressLayer{
