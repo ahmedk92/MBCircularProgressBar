@@ -24,6 +24,7 @@
     self.progressBar.lapCircleText = @"10";
     self.progressBar.lapCircleFillColor = [UIColor lightGrayColor];
     self.progressBar.lapCircleStrokeColor = [UIColor orangeColor];
+    self.progressBar.lapCircleTextColor = [UIColor redColor];
 }
 
 - (IBAction)animate:(UIButton *)sender {
