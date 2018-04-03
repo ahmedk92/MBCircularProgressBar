@@ -158,4 +158,7 @@ IB_DESIGNABLE
 /// Color to stroke the outside of the lap circle.
 @property (nonatomic, strong) UIColor* lapCircleStrokeColor;
 
+/// Color of text inside the lap circle.
+@property (nonatomic, strong) UIColor* lapCircleTextColor;
+
 @end

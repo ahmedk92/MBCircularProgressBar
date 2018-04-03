@@ -42,6 +42,7 @@
 @dynamic lapCircleText;
 @dynamic lapCircleFillColor;
 @dynamic lapCircleStrokeColor;
+@dynamic lapCircleTextColor;
 
 #pragma mark - Drawing
 
@@ -176,7 +177,7 @@
     
     CGFloat valueFontSize = radius;
     
-    NSDictionary* valueFontAttributes = @{NSFontAttributeName: [UIFont fontWithName: self.valueFontName size:valueFontSize], NSForegroundColorAttributeName: self.fontColor, NSParagraphStyleAttributeName: textStyle};
+    NSDictionary* valueFontAttributes = @{NSFontAttributeName: [UIFont fontWithName: self.valueFontName size:valueFontSize], NSForegroundColorAttributeName: self.lapCircleTextColor, NSParagraphStyleAttributeName: textStyle};
     
     NSString *formatString = [NSString stringWithFormat:@"%%.%df", (int)self.decimalPlaces];
     
