@@ -43,6 +43,7 @@
 @dynamic lapCircleFillColor;
 @dynamic lapCircleStrokeColor;
 @dynamic lapCircleTextColor;
+@dynamic innerCircleFillColor;
 
 #pragma mark - Drawing
 
@@ -68,6 +69,18 @@
     UIGraphicsPopContext();
 }
 
+- (void)drawFilledInnerCircle:(CGPoint)center radius:(CGFloat)radius context:(CGContextRef)context {
+    CGMutablePathRef circle = CGPathCreateMutable();
+    CGPathAddArc(circle, NULL, center.x, center.y, radius, 0, 2 * M_PI, YES);
+    
+    CGContextAddPath(context, circle);
+    CGContextSetFillColorWithColor(context, self.innerCircleFillColor.CGColor);
+    CGContextDrawPath(context, kCGPathFill);
+    
+    CGPathRelease(circle);
+
+}
+
 - (void)drawEmptyBar:(CGRect)rect context:(CGContextRef)c{
     
     if(self.emptyLineWidth <= 0){
@@ -83,6 +96,8 @@
     } else {
         radius = radius - self.emptyLineWidth/2.f;
     }
+    
+    [self drawFilledInnerCircle:center radius:radius context:c];
     
     CGMutablePathRef arc = CGPathCreateMutable();
     CGPathAddArc(arc, NULL,

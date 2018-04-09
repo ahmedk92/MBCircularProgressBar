@@ -171,4 +171,7 @@ typedef NS_ENUM(NSInteger, MBCircularProgressBarAppearanceType) {
 /// Color of text inside the lap circle.
 @property (nonatomic, strong) UIColor* lapCircleTextColor;
 
+/// Inner circle fill color.
+@property (nonatomic, strong) UIColor* innerCircleFillColor;
+
 @end

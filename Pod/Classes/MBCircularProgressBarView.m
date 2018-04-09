@@ -67,6 +67,7 @@
     [self setTextOffset:CGPointMake(0, 0)];
     [self setUnitFontName:@"HelveticaNeue-Thin"];
     [self setCountdown:NO];
+    [self setInnerCircleFillColor:[UIColor clearColor]];
 }
 
 #pragma mark - Getters and Setters for layer properties
@@ -343,6 +344,14 @@
 
 - (UIColor *)lapCircleTextColor {
     return self.progressLayer.lapCircleTextColor;
+}
+
+- (void)setInnerCircleFillColor:(UIColor *)innerCircleFillColor {
+    self.progressLayer.innerCircleFillColor = innerCircleFillColor;
+}
+
+- (UIColor *)innerCircleFillColor {
+    return self.progressLayer.innerCircleFillColor;
 }
 
 #pragma mark - CALayer
