@@ -354,6 +354,28 @@
     return self.progressLayer.innerCircleFillColor;
 }
 
+- (void)setInnerLapCircleRadius:(CGFloat)innerLapCircleRadius {
+    self.progressLayer.innerLapCircleRadius = innerLapCircleRadius;
+}
+- (CGFloat)innerLapCircleRadius {
+    return self.progressLayer.innerLapCircleRadius;
+}
+
+- (void)setInnerLapCircleFillColor:(UIColor *)innerLapCircleFillColor{
+    self.progressLayer.innerLapCircleFillColore = innerLapCircleFillColor;
+}
+- (UIColor *)innerLapCircleFillColor{
+    return self.progressLayer.innerLapCircleFillColore;
+}
+
+- (void)setInnerLapCircleStrokeColor:(UIColor *)innerLapCircleStrokeColor{
+    self.progressLayer.innerLapCircleStrockColore = innerLapCircleStrokeColor;
+}
+
+- (UIColor *)innerLapCircleStrokeColor{
+    return self.progressLayer.innerLapCircleStrockColore;
+}
+
 #pragma mark - CALayer
 
 -(MBCircularProgressBarLayer*)progressLayer{

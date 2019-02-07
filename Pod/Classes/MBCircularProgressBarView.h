@@ -161,7 +161,14 @@ IB_DESIGNABLE
 /// Color of text inside the lap circle.
 @property (nonatomic, strong) IBInspectable UIColor* lapCircleTextColor;
 
-/// Inner circle fill color.
-@property (nonatomic, strong) IBInspectable UIColor* innerCircleFillColor;
+/// Radius of Inner lap Circle
+@property (nonatomic, assign) IBInspectable CGFloat innerLapCircleRadius;
+
+/// Color to fill inside the lap circle.
+@property (nonatomic, strong) IBInspectable UIColor* innerLapCircleFillColor;
+/// Color to stroke the outside of the Inner lap circle.
+@property (nonatomic, strong) IBInspectable UIColor* innerLapCircleStrokeColor;
+
+
 
 @end

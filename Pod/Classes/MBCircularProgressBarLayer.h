@@ -159,6 +159,15 @@ typedef NS_ENUM(NSInteger, MBCircularProgressBarAppearanceType) {
 /// Radius of lap count circle. A value of zero or negative to not draw it.
 @property (nonatomic, assign) CGFloat lapCircleRadius;
 
+/// Radius of Inner lap Circle
+@property (nonatomic, assign) CGFloat innerLapCircleRadius;
+
+/// Color to fill inside the Inner lap circle.
+@property (nonatomic, strong) UIColor* innerLapCircleFillColore;
+
+///  Color to stroke the outside of the Inner lap circle.
+@property (nonatomic, strong) UIColor* innerLapCircleStrockColore;
+
 /// Text to show inside the lap circle.
 @property (nonatomic, strong) NSString* lapCircleText;
 

@@ -43,6 +43,9 @@
 @dynamic lapCircleFillColor;
 @dynamic lapCircleStrokeColor;
 @dynamic lapCircleTextColor;
+@dynamic innerLapCircleRadius;
+@dynamic innerLapCircleStrockColore;
+@dynamic innerLapCircleFillColore;
 @dynamic innerCircleFillColor;
 
 #pragma mark - Drawing
@@ -183,7 +186,23 @@
     CGPathRelease(lapCircle);
     
     [self drawLapCircleText:lapPoint radius:radius context:c text:self.lapCircleText ?: @""];
+    
+    [self drawinnerLapCircle:lapPoint context:c];
 
+}
+
+-(void)drawinnerLapCircle:(CGPoint)lapPoint context:(CGContextRef)c{
+    CGFloat radius = self.innerLapCircleRadius;
+    if (radius <= 0) return;
+    
+    CGMutablePathRef lapCircle = CGPathCreateMutable();
+    CGPathAddArc(lapCircle, NULL, lapPoint.x, lapPoint.y, radius, 0, 2 * M_PI, YES);
+    CGContextAddPath(c, lapCircle);
+    CGContextSetFillColorWithColor(c, self.innerLapCircleFillColore.CGColor);
+    CGContextSetStrokeColorWithColor(c, self.innerLapCircleStrockColore.CGColor);
+    CGContextDrawPath(c, kCGPathFillStroke);
+    CGPathRelease(lapCircle);
+   
 }
 
 - (void)drawLapCircleText:(CGPoint)lapPoint radius:(CGFloat)radius context:(CGContextRef)c text:(NSString*)text {
